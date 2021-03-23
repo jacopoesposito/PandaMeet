@@ -1,0 +1,24 @@
+.main_color, .main_color:hover{
+    color: #ff9d00;
+}
+
+.btn-primary{
+    background-color: #ff9d00 !important;
+    border-color: #ff9d00 !important;
+}
+
+a{
+    color: #ff9d00;
+    text-decoration: none !important;
+}
+
+.sidebar-color {
+    color: white;
+}
+
+.sidebar-color:hover{
+    color: #ff9d00;
+}
+
+
+

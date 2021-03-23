@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/b729fd991c.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link href="/static/CSS/style.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PandaMeet - Home</title>
+</head>
+<body style="background-color:rgba(0, 0, 0, 0.9)">
+    {%  block navbar  %}
+        <div class="position-fixed vh-100 bg-dark pt-5 pb-1 px-2 d-none d-sm-block" style="width: 65px" id="sidebar">
+            <div class="d-flex flex-column text-center">
+                <div class="mb-2 mt-0">
+                    <img src="{{ current_user.PROFILE_PIC }}" id="userpic" class="rounded-circle" style="max-width: 70%" alt="profile pic of {{ current_user.USERNAME }}">
+                </div>
+                <div class="mt-0 text-center text-white" id="userinfo">
+                    <strong class="sidebar-text" style="font-size: 30px; display: none">{{ current_user.NAME }}{{ " " }}{{ current_user.FAMILYNAME }}</strong>
+
+                </div>
+                <div class="mt-0 mb-3 text-center text-white" id="username">
+                    <strong class="sidebar-text" style="display: none">{{ "@" }}{{ current_user.USERNAME }}</strong>
+
+                </div>
+                <div class="my-1 text-center">
+                    <a href="{{ url_for('MainApp.index') }}" style="font-size: 25px" class="sidebar-color">
+                        <span class="sidebar-text mx-4" style="display: none">Home</span>
+                        <i class="fas fa-home" id="homeicon"></i></a>
+                </div>
+                <div class="my-1 text-center">
+                    <span style="font-size: 25px" class="sidebar-color"><span class="sidebar-text mx-4" style="display: none">Meet</span>
+                        <i class="fas fa-compass" id="discovericon"></i></span>
+                </div>
+                 <div class="my-1 text-center">
+                    <span style="font-size: 25px" class="sidebar-color"><span class="sidebar-text mx-4" style="display: none">Chat</span>
+                        <i class="fas fa-comments" id="chaticon"></i></span>
+                 </div>
+                <div class="my-1 text-center">
+                    <span style="font-size: 25px" class="sidebar-color"><span class="sidebar-text mx-4" style="display: none">Rooms</span>
+                        <i class="fas fa-users" id="roomsicon"></i></span>
+                </div>
+                <div class="my-1 text-center">
+                    <span style="font-size: 25px" class="sidebar-color"><span class="sidebar-text mx-4" style="display: none">Notifications</span>
+                        <i class="fas fa-bell" id="notifications"></i></span>
+                </div>
+                <div class="my-1 text-center">
+                    <a href="{{ url_for('Auth.logout') }}" class="sidebar-color"  style="font-size: 25px">
+                        <span class="sidebar-text mx-4" style="display: none">Log out</span><i class="fas fa-sign-out-alt" id="logout"></i></a>
+                </div>
+                <div class="my-1" id="open_sidebar">
+                    <span style="font-size: 25px" class="sidebar-color"> <i class="fas fa-angle-right"></i> </span>
+                </div>
+
+
+
+            </div>
+        </div>
+
+        <div class="position-fixed fixed-bottom bg-dark text-center d-sm-none">
+            <div class="row">
+                <div class="col">
+                    <a href="{{ url_for('MainApp.index') }}" style="font-size: 25px" class="sidebar-color">
+                        <div class="h-100 w-100">
+                            <i class="fas fa-home" id="homeicon"></i>
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="{{ url_for('MainApp.index') }}" style="font-size: 25px" class="sidebar-color">
+                        <div class="h-100 w-100">
+                            <i class="fas fa-home" id="homeicon"></i>
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="{{ url_for('MainApp.index') }}" style="font-size: 25px" class="sidebar-color">
+                        <div class="h-100 w-100">
+                            <i class="fas fa-home" id="homeicon"></i>
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="{{ url_for('MainApp.index') }}" style="font-size: 25px" class="sidebar-color">
+                        <div class="h-100 w-100">
+                            <i class="fas fa-home" id="homeicon"></i>
+                        </div>
+                    </a>
+                </div>
+                <div class="col m-auto">
+                    <a href="{{ url_for('MainApp.index') }}" class="sidebar-color">
+                        <div class="h-100 w-100">
+                            <img src="{{ current_user.PROFILE_PIC }}" id="userpic" class="rounded-circle" style="max-width: 45%" alt="profile pic of {{ current_user.USERNAME }}">
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+    {% endblock %}
+
+    <div id="content" style="margin-left: 65px">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <script>
+        $(function (){
+            $("body").on("click", "#open_sidebar", ()=>{
+                let opensidebar = $("#open_sidebar i");
+
+                if(opensidebar.hasClass("fa-angle-right")){
+                    opensidebar.removeClass("fa-angle-right");
+                    opensidebar.addClass("fa-angle-left");
+                    $("#sidebar").animate({width: "300px"}, 120, ()=>{
+                        $('strong.sidebar-text').show();
+                        $('span.sidebar-text').show();
+                    });
+                    $("#content").animate({"margin-left": "300px"}, 120);
+                }
+                else{
+                    opensidebar.addClass("fa-angle-right");
+                    opensidebar.removeClass("fa-angle-left");
+                    $('strong.sidebar-text').hide();
+                    $('span.sidebar-text').hide();
+                    $("#sidebar").animate({width: "65px"}, 120);
+                    $("#content").animate({"margin-left": "65px"}, 120);
+                }
+            });
+        });
+    </script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+</body>
+</html>
