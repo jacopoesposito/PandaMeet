@@ -1,5 +1,24 @@
-{% extends base.html %}
+{% extends "base.html" %}
 
 {% block content %}
-
+    <div class="container">
+        <div class="card bg-dark text-white">
+            <img class="card-img-top" src="{{ user.PROFILE_COVER }}" style="width: 100%; height: 300px; object-fit: cover">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="col-3">
+                            <img src="{{ user.PROFILE_PIC }}" class="rounded-circle" style="max-width: 100%; float: left" alt="Profile pic of {{ user.USERNAME }}">
+                        </div>
+                        <div class="col-9">
+                            <p class="card-title">{{ user.NAME }}{{ " " }}{{ user.FAMILYNAME }}</p>
+                            <h5 class="card-title">{{ "@" }}{{ user.USERNAME }}</h5>
+                        </div>
+                    </div>
+                </div>
+                <p class="card-text">Data di iscrizione - {{ user.DATE_SIGNUP }}</p>
+                <p class="card-text my-2">{{ user.BIOGRAFIA }}</p>
+            </div>
+        </div>
+    </div>
 {% endblock %}

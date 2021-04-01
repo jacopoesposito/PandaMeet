@@ -12,10 +12,24 @@
 </head>
 <body style="background-color:rgba(0, 0, 0, 0.9)">
     {%  block navbar  %}
+        <nav class="navbar navbar-dark bg-dark d-none d-sm-block position-sticky">
+        <div class="container-fluid">
+            <a class="navbar-brand">
+                <img src="/static/image/logo3.png" alt="PandaMeet Logo" width="80">
+            </a>
+            <form class="d-flex justify-content-center">
+                <input class="form-control form-control-sm" placeholder="PandaSearch" aria-label="Search">
+                <i class="fas fa-search sidebar-color my-auto mx-2" id="searchbutton"></i>
+            </form>
+            <i class="fas fa-bell sidebar-color" id="notifications"></i>
+        </div>
+        </nav>
         <div class="position-fixed vh-100 bg-dark pt-5 pb-1 px-2 d-none d-sm-block" style="width: 65px" id="sidebar">
             <div class="d-flex flex-column text-center">
                 <div class="mb-2 mt-0">
+                    <a href="{{ url_for('Users.profileUsers', user=current_user.USERNAME) }}" style="font-size: 25px" class="sidebar-color">
                     <img src="{{ current_user.PROFILE_PIC }}" id="userpic" class="rounded-circle" style="max-width: 70%" alt="profile pic of {{ current_user.USERNAME }}">
+                    </a>
                 </div>
                 <div class="mt-0 text-center text-white" id="userinfo">
                     <strong class="sidebar-text" style="font-size: 30px; display: none">{{ current_user.NAME }}{{ " " }}{{ current_user.FAMILYNAME }}</strong>
@@ -102,7 +116,10 @@
 
     {% endblock %}
 
+
+
     <div id="content" style="margin-left: 65px">
+
         {% block content %}
         {% endblock %}
     </div>

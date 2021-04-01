@@ -26,14 +26,17 @@ def create_app(confing_class=DevelopmentConfig):
     bcrypt.init_app(app)
     login.init_app(app)
 
-    db.init_app(app)
-    db.reflect(app=app)
+    db.init_app(app)        #Init the db
+    db.reflect(app=app)     #Reflect the db tables
 
+    #Importing all the blueprints of my app
     from Auth.routes import auth
     from MainApp.routes import mainapp
+    from Users.routes import users
 
-    app.register_blueprint(auth)
+    app.register_blueprint(auth)      #register the blueprints with the app
     app.register_blueprint(mainapp)
+    app.register_blueprint(users)
 
     login.login_view="Auth.login"
 

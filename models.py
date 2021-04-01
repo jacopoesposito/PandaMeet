@@ -21,6 +21,10 @@ class Users(db.Model, UserMixin):
     def get_id(self):
         return (self.ID_USER)
 
+    def get_user(username):
+        User = Users.query.filter_by(USERNAME=username).first()
+        return User
+
 
 class Paesi(db.Model):
     __table__ = db.Model.metadata.tables['PAESI']
