@@ -25,6 +25,14 @@ class Users(db.Model, UserMixin):
         User = Users.query.filter_by(USERNAME=username).first()
         return User
 
+    def get_user_sex(User):
+        if(User.SESSO == 'M'):
+            return 'Male'
+        if(User.SESSO == 'F'):
+            return 'Female'
+        if(User.SESSO == 'O'):
+            return 'other'
+
 
 class Paesi(db.Model):
     __table__ = db.Model.metadata.tables['PAESI']

@@ -11,14 +11,44 @@
                             <img src="{{ user.PROFILE_PIC }}" class="rounded-circle" style="max-width: 100%; float: left" alt="Profile pic of {{ user.USERNAME }}">
                         </div>
                         <div class="col-9">
-                            <p class="card-title">{{ user.NAME }}{{ " " }}{{ user.FAMILYNAME }}</p>
-                            <h5 class="card-title">{{ "@" }}{{ user.USERNAME }}</h5>
+                            <strong class="card-title">{{ user.NAME }}{{ " " }}{{ user.FAMILYNAME }}</strong>
+                            <br/>
+                            <strong class="card-title">{{ "@" }}{{ user.USERNAME }}</strong>
                         </div>
                     </div>
                 </div>
-                <p class="card-text">Data di iscrizione - {{ user.DATE_SIGNUP }}</p>
-                <p class="card-text my-2">{{ user.BIOGRAFIA }}</p>
+                <p class="card-text mt-2">Joined in {{ user.DATE_SIGNUP }}</p>
+                <p class="card-text my-2 mr-1">Gender: {{ sex }} Bio: {{ user.BIOGRAFIA }}</p>
+                {%  if user.ID_USER == current_user.ID_USER %}
+                <a class="btn btn-primary" href="">Modifica profilo</a>
+                {%  endif %}
             </div>
         </div>
+    </div>
+
+    <div class="form-popup bg-dark text-white" id="profileModify" style="display: block">
+        <form class="container">
+            <div class="input-group mb-3">
+                <label class="input-group-text" for="cover">Upload cover</label>
+                {{ form.coverPic(class="form-control", id="cover", type="file") }}
+            </div>
+            <div class="input-group mb-3">
+                <label class="input-group-text" for="profilePic">Upload Profile Picture</label>
+                {{ form.profilePic(class="form-control", id="profilePic", type="file") }}
+            </div>
+            <div class="input-group mb-3">
+                <label class="form-label" for="name">Change your name</label>
+                {{ form.name(class="form-control", id="name", type="text") }}
+            </div>
+            <div class="input-group mb-3">
+                <label class="form-label" for="familyname">Change your family name</label>
+                {{ form.family_name(class="form-control", id="familyname", type="text" ) }}
+            </div>
+            <div>
+                <label class="form-label" for="biography">Set your biography</label>
+                {{ form.Biography(class="form-control", id="biography", type="text-area") }}
+            </div>
+            {{ form.submit(class="btn btn-primary", type="submit", size="lg") }}
+        </form>
     </div>
 {% endblock %}
