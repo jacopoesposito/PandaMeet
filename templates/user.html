@@ -20,35 +20,65 @@
                 <p class="card-text mt-2">Joined in {{ user.DATE_SIGNUP }}</p>
                 <p class="card-text my-2 mr-1">Gender: {{ sex }} Bio: {{ user.BIOGRAFIA }}</p>
                 {%  if user.ID_USER == current_user.ID_USER %}
-                <a class="btn btn-primary" href="">Modifica profilo</a>
+                <a class="btn btn-primary" id="ShowFormProfile" data-bs-toggle="modal" data-bs-target="#modalProfileModify">Modifica profilo</a>
                 {%  endif %}
             </div>
         </div>
     </div>
 
-    <div class="form-popup bg-dark text-white" id="profileModify" style="display: block">
-        <form class="container">
-            <div class="input-group mb-3">
-                <label class="input-group-text" for="cover">Upload cover</label>
-                {{ form.coverPic(class="form-control", id="cover", type="file") }}
-            </div>
-            <div class="input-group mb-3">
-                <label class="input-group-text" for="profilePic">Upload Profile Picture</label>
-                {{ form.profilePic(class="form-control", id="profilePic", type="file") }}
-            </div>
-            <div class="input-group mb-3">
+    <div class="modal fade" id="modalProfileModify" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content bg-dark text-white">
+          <div class="modal-header">
+            <h5 class="modal-title" id="ModalLabel">Change profile info</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form method="post" enctype="multipart/form-data">
+                {{ form.csrf_token }}
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="cover">Upload cover</label>
+                    {{ form.coverPic(class="form-control", id="cover", type="file") }}
+                </div>
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="profilePic">Upload Profile Picture</label>
+                    {{ form.profilePic(class="form-control", id="profilePic", type="file") }}
+                </div>
                 <label class="form-label" for="name">Change your name</label>
-                {{ form.name(class="form-control", id="name", type="text") }}
-            </div>
-            <div class="input-group mb-3">
+                <div class="input-group mb-3">
+                    {{ form.name(class="form-control", id="name", type="text") }}
+                </div>
                 <label class="form-label" for="familyname">Change your family name</label>
-                {{ form.family_name(class="form-control", id="familyname", type="text" ) }}
-            </div>
-            <div>
-                <label class="form-label" for="biography">Set your biography</label>
-                {{ form.Biography(class="form-control", id="biography", type="text-area") }}
-            </div>
-            {{ form.submit(class="btn btn-primary", type="submit", size="lg") }}
-        </form>
+                <div class="input-group mb-3">
+                    {{ form.family_name(class="form-control", id="familyname", type="text") }}
+                </div>
+                <div>
+                    <label class="form-label" for="biography">Set your biography</label>
+                    {{ form.Biography(class="form-control", id="biography", type="text-area") }}
+                </div>
+                {{ form.submit(class="btn btn-primary", id="form-submit",type="submit", size="lg", hidden="true") }}
+                {%  if form.errors %}
+                    <span class="alert alert-danger">{{ form.name.errors|join(', ') }}</span>
+                {% endif %}
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" id="modal-confirm" formmethod="post">Confirm</button>
+          </div>
+        </div>
+      </div>
     </div>
+
+
+{% endblock %}
+{% block script %}
+     <script>
+        $('#modal-confirm').click(function(){
+
+        // Perform the action after modal confirm button is clicked.
+
+        $('#form-submit').click() // submitting the form
+    });
+    </script>
 {% endblock %}
