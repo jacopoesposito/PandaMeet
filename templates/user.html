@@ -20,12 +20,15 @@
                 <p class="card-text mt-2">Joined in {{ user.DATE_SIGNUP }}</p>
                 <p class="card-text my-2 mr-1">Gender: {{ sex }} Bio: {{ user.BIOGRAFIA }}</p>
                 {%  if user.ID_USER == current_user.ID_USER %}
-                <a class="btn btn-primary" id="ShowFormProfile" data-bs-toggle="modal" data-bs-target="#modalProfileModify">Modifica profilo</a>
+                <a class="btn btn-primary" id="ShowFormProfile" data-bs-toggle="modal" data-bs-target="#modalProfileModify">Modify profile</a>
+                {% else %}
+                <a class="btn btn-primary" id="followProfile">Follow</a>
                 {%  endif %}
             </div>
         </div>
     </div>
 
+    {%  if user.ID_USER == current_user.ID_USER %}
     <div class="modal fade" id="modalProfileModify" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content bg-dark text-white">
@@ -69,7 +72,7 @@
         </div>
       </div>
     </div>
-
+    {% endif %}
 
 {% endblock %}
 {% block script %}

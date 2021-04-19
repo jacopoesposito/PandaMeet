@@ -1,5 +1,5 @@
 import uuid, os
-from flask import Blueprint, render_template, redirect, url_for, flash, current_app
+from flask import Blueprint, render_template, redirect, url_for, flash, current_app, request
 from flask_login import current_user
 from __init__ import login_required, db
 from Users.forms import modifyProfileForm
@@ -15,22 +15,34 @@ def profileUsers(user):
         return render_template("user.html", user=User, sex=sex)
     sex = Users.get_user_sex(current_user)
     form = modifyProfileForm()
-    if form.validate_on_submit():
+    if form.is_submitted():
 
         print(form.coverPic.data)
         name = form.name.data
         family_name = form.family_name.data
         bio = form.Biography.data
-        cover_pic = form.coverPic.data
-        profilePic = form.profilePic.data
-        cover_name = str(uuid.uuid4())
-        profilepic_name = str(uuid.uuid4())
-        cover_pic.save(os.path.join("static/image/users_profile_cover", cover_name))
-        profilePic.save(os.path.join("static/image/users_profile_pic", profilepic_name))
+        if form.coverPic.data.filename != '':
+            cover_pic = form.coverPic.data
+            cover_name = str(uuid.uuid4())
+            profile_cover_link = os.path.join("static/image/users_profile_cover", cover_name)
+            cover_pic.save(profile_cover_link)
+            current_user.PROFILE_COVER = "/" + profile_cover_link
+        if form.profilePic.data.filename != '':
+            profilePic = form.profilePic.data
+            profilepic_name = str(uuid.uuid4())
+            profile_pic_link = os.path.join("static/image/users_profile_pic", profilepic_name)
+            profilePic.save(profile_pic_link)
+            current_user.PROFILE_PIC = "/" + profile_pic_link
 
-        if name and family_name and bio and cover_pic and profilePic:
-            return "ciao"
+        if name:
+            current_user.NAME = name
+        if family_name:
+            current_user.FAMILYNAME = family_name
+        if bio:
+            current_user.BIOGRAFIA = bio
 
+        db.session.flush()
+        db.session.commit()
 
     return render_template("user.html", user=current_user, sex=sex, form=form)
 
