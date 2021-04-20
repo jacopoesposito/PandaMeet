@@ -54,6 +54,18 @@ class PossiedeHobby(db.Model):
     __table__ = db.Model.metadata.tables['POSSIEDE_HOBBY']
 
 
+class Follow(db.Model):
+    __table__ = db.Model.metadata.tables['FOLLOW']
+
+
+class Domanda(db.Model):
+    __table__ = db.Model.metadata.tables['DOMANDA']
+
+
+class Risposta(db.Model):
+    __table__ = db.Model.metadata.tables['RISPOSTA']
+
+
 def checkEmail(email):
     user = Users.query.filter_by(EMAIL=email).first()
 
@@ -62,6 +74,7 @@ def checkEmail(email):
     else:
         return False
 
+
 def checkUsername(username):
     user = Users.query.filter_by(USERNAME=username).first()
 
@@ -69,6 +82,5 @@ def checkUsername(username):
         return True
     else:
         return False
-
 
 

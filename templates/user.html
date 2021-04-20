@@ -22,7 +22,11 @@
                 {%  if user.ID_USER == current_user.ID_USER %}
                 <a class="btn btn-primary" id="ShowFormProfile" data-bs-toggle="modal" data-bs-target="#modalProfileModify">Modify profile</a>
                 {% else %}
-                <a class="btn btn-primary" id="followProfile">Follow</a>
+                    {% if checkFollower(user) %}
+                        <a class="btn btn-primary" id="unfollowProfile" href="{{ url_for('Users.unfollowUser', userToUnfollow=user.USERNAME) }}">Unfollow</a>
+                        {% else %}
+                        <a class="btn btn-primary" id="followProfile" href="{{ url_for('Users.followUser', userToFollow=user.USERNAME) }}">Follow</a>
+                    {% endif %}
                 {%  endif %}
             </div>
         </div>

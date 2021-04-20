@@ -1,9 +1,10 @@
 import uuid, os
 from flask import Blueprint, render_template, redirect, url_for, flash, current_app, request
 from flask_login import current_user
+from datetime import datetime
 from __init__ import login_required, db
 from Users.forms import modifyProfileForm
-from models import Users
+from models import Users, Follow
 users = Blueprint('Users', __name__)
 
 @users.route('/profile/<user>', methods=['GET', 'POST'])
@@ -47,7 +48,38 @@ def profileUsers(user):
     return render_template("user.html", user=current_user, sex=sex, form=form)
 
 
+@users.route('/follow/<userToFollow>', methods=['GET', 'POST'])
+@login_required
+def followUser(userToFollow):
+    user = Users.get_user(userToFollow)
+    if user.ID_USER != current_user.ID_USER:
+        if not checkFollower(user):
+            follow = Follow(ID_USER_1=current_user.ID_USER, FOLLOWER=user.ID_USER, DATA_FOLLOW=datetime.now())
+            db.session.add(follow)
+            db.session.commit()
+            return profileUsers(userToFollow)
+        return profileUsers(userToFollow)
 
+
+@users.route('/unfollow/<userToUnfollow>', methods=['GET', 'POST'])
+@login_required
+def unfollowUser(userToUnfollow):
+    user = Users.get_user(userToUnfollow)
+    if user.ID_USER != current_user.ID_USER:
+        if checkFollower(user):
+            Follow.query.filter(Follow.ID_USER_1==current_user.ID_USER, Follow.FOLLOWER==user.ID_USER).delete()
+            db.session.commit()
+            return profileUsers(userToUnfollow)
+    return profileUsers(userToUnfollow)
+
+
+def checkFollower(user):
+    follower = Follow.query.filter(Follow.ID_USER_1==current_user.ID_USER, Follow.FOLLOWER==user.ID_USER).first()
+
+    if follower:
+        return True
+    else:
+        return False
 
 
 
