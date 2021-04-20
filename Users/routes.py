@@ -21,13 +21,13 @@ def profileUsers(user):
         name = form.name.data
         family_name = form.family_name.data
         bio = form.Biography.data
-        if form.coverPic.data.filename != '':
+        if form.coverPic.data.filename != '': #Check if the users uploaded a new cover picture
             cover_pic = form.coverPic.data
             cover_name = str(uuid.uuid4())
             profile_cover_link = os.path.join("static/image/users_profile_cover", cover_name)
             cover_pic.save(profile_cover_link)
             current_user.PROFILE_COVER = "/" + profile_cover_link
-        if form.profilePic.data.filename != '':
+        if form.profilePic.data.filename != '': #Check if the users uploaded a new profile pic
             profilePic = form.profilePic.data
             profilepic_name = str(uuid.uuid4())
             profile_pic_link = os.path.join("static/image/users_profile_pic", profilepic_name)
