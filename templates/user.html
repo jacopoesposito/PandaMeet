@@ -28,6 +28,15 @@
                         <a class="btn btn-primary" id="followProfile" href="{{ url_for('Users.followUser', userToFollow=user.USERNAME) }}">Follow</a>
                     {% endif %}
                 {%  endif %}
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                         <div class="mt-3 alert alert-danger">
+                        {% for message in messages %}
+                           {{ message }}
+                        {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
             </div>
         </div>
     </div>
@@ -64,9 +73,7 @@
                     {{ form.Biography(class="form-control", id="biography", type="text-area") }}
                 </div>
                 {{ form.submit(class="btn btn-primary", id="form-submit",type="submit", size="lg", hidden="true") }}
-                {%  if form.errors %}
-                    <span class="alert alert-danger">{{ form.name.errors|join(', ') }}</span>
-                {% endif %}
+                <br>
             </form>
           </div>
           <div class="modal-footer">

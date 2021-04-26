@@ -16,7 +16,7 @@ def profileUsers(user):
         return render_template("user.html", user=User, sex=sex)
     sex = Users.get_user_sex(current_user)
     form = modifyProfileForm()
-    if form.is_submitted():
+    if form.validate_on_submit():
 
         print(form.coverPic.data)
         name = form.name.data
@@ -48,6 +48,11 @@ def profileUsers(user):
 
         db.session.flush()
         db.session.commit()
+
+    if form.coverPic.errors:
+        flash(form.coverPic.errors)
+    if form.profilePic.errors:
+        flash(form.profilePic.errors)
 
     return render_template("user.html", user=current_user, sex=sex, form=form)
 
