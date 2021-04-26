@@ -48,7 +48,15 @@ def profileUsers(user):
 
         db.session.flush()
         db.session.commit()
+        return render_template("user.html", user=current_user, sex=sex, form=form)
 
+    #Checking for the errors after the validation
+    if form.name.errors:
+        flash(form.name.errors)
+    if form.family_name.errors:
+        flash(form.family_name.errors)
+    if form.Biography.errors:
+        flash(form.Biography.errors)
     if form.coverPic.errors:
         flash(form.coverPic.errors)
     if form.profilePic.errors:
