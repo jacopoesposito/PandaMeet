@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container col-lg-6 col-sm-9 col-xs-12">
+        <div class="mx-auto col-lg-6 col-sm-9 col-xs-10 text-white text-center">
+            <div class="mx-auto col-3">
+            <img src="{{ current_user.PROFILE_PIC }}" class="rounded-circle mt-3" style="max-width: 100%;" alt="Profile pic of {{ current_user.USERNAME }}">
+            </div>
+            <h3 class="mt-2">Welcome, {{ current_user.NAME }} {{ current_user.FAMILYNAME }}</h3>
+            <div class="col-12">
+            <h4 class="mt-2">In this page you can manage all the information about your Pandaccount</h4>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                    <div class="card bg-dark h-100">
+                        <div class="card-body text-white">
+                            <h5 class="card-title">VIP Subscription  <i class="fas fa-crown main_color"></i></h5>
+                            <p class="card-text">Here you can manage your subscription to PandaMeet VIP. VIP includes several
+                            advantages like more personalization option and allow you to support PandaMeet development</p>
+                            <a href="#" class="btn btn-primary">Coming soon</a>
+                        </div>
+                    </div>
+                </div>
+            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                    <div class="card bg-dark h-100">
+                        <div class="card-body text-white">
+                            <h5 class="card-title">Security Center  <i class="fas fa-shield-alt"></i></h5>
+                            <p class="card-text">Here you can manage all the security options of your Pandaccount, like change password or privacy settings.</p>
+                            <a href="#" class="btn btn-primary">Coming soon</a>
+                        </div>
+                    </div>
+            </div>
+            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                    <div class="card bg-dark h-100">
+                        <div class="card-body text-white">
+                            <h5 class="card-title">Account Info  <i class="fas fa-user-circle"></i></h5>
+                            <p class="card-text">Here you can add or review details about your account, such as birth date, country, email and ecc.</p>
+                            <a href="#" class="btn btn-primary">Coming soon</a>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
