@@ -57,8 +57,9 @@
                         <i class="fas fa-users" id="roomsicon"></i></span>
                 </div>
                 <div class="my-1 text-center">
-                    <span style="font-size: 25px" class="sidebar-color"><span class="sidebar-text mx-4" style="display: none">Settings</span>
-                        <i class="fas fa-cog" id="settings"></i></span>
+                    <a href="{{ url_for('Users.accountSettings', user=current_user.USERNAME) }}" style="font-size: 25px" class="sidebar-color">
+                    <span class="sidebar-text mx-4" style="display: none">Settings</span>
+                        <i class="fas fa-cog" id="settings"></i></a>
                 </div>
                 <div class="my-1 text-center">
                     <a href="{{ url_for('Auth.logout') }}" class="sidebar-color"  style="font-size: 25px">

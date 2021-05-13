@@ -2,6 +2,7 @@ import uuid, os
 from flask import Blueprint, render_template, redirect, url_for, flash, current_app, request
 from flask_login import current_user
 from datetime import datetime
+
 from __init__ import login_required, db
 from Users.forms import modifyProfileForm
 from models import Users, Follow
@@ -18,7 +19,6 @@ def profileUsers(user):
     form = modifyProfileForm()
     if form.validate_on_submit():
 
-        print(form.coverPic.data)
         name = form.name.data
         family_name = form.family_name.data
         bio = form.Biography.data
@@ -88,6 +88,15 @@ def unfollowUser(userToUnfollow):
             db.session.commit()
             return profileUsers(userToUnfollow)
     return profileUsers(userToUnfollow)
+
+@users.route('/myaccount/<user>', methods=['GET','POST'])
+@login_required
+def accountSettings(user):
+    user = Users.get_user(user)
+    if user.ID_USER == current_user.ID_USER:
+        return render_template("myaccount.html")
+    return redirect(url_for('MainApp.index'))
+
 
 
 def checkFollower(user):
