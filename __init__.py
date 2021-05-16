@@ -37,10 +37,12 @@ def create_app(confing_class=DevelopmentConfig):
     from MainApp.routes import mainapp
     from Users.routes import users
     from Users.routes import checkFollower
+    from Settings.routes import settings
 
     app.register_blueprint(auth)      #register the blueprints with the app
     app.register_blueprint(mainapp)
     app.register_blueprint(users)
+    app.register_blueprint(settings, url_prefix="/myaccount/")
     app.jinja_env.globals.update(checkFollower=checkFollower)
 
     login.login_view="Auth.login"
