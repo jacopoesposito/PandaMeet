@@ -1,21 +1,25 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="container mx-auto text-center text-white">
-        <h1 class="mt-3">Welcome to PandaMeet Security Center</h1>
-        <h4 class="mt-2">Here you can manage all the security options of your Pandaccount</h4>
+    <div class="container mx-auto text-white">
+        <h1 class="mt-3 text-center ">Welcome to PandaMeet Security Center</h1>
+        <h4 class="mt-2 text-center ">Here you can manage all the security options of your Pandaccount</h4>
 
-        <div class="row mt-3">
-            <div class="col-12">
-                <div class="card-body bg-dark">
-                    <div class="col-6 required">
-                        <label class="form-label" for="oldPassword">Insert current password</label>
-
-
+        <div class="row">
+            <div class="col-6 mx-auto">
+                <div class="card-body bg-dark mt-5">
+                    <div class="card-title">Change your password</div>
+                    <div class="col-12">
+                        <form method="post">
+                            {{ changePassform.csrf_token }}
+                            {{ changePassform.oldPassword(class="form-control mt-3", id="oldPassword", required="required", type="password", placeholder="Insert current password") }}
+                            {{ changePassform.newPassword(class="form-control mt-3", id="newPassword", required="required", type="password", placeholder="Insert new password") }}
+                            {{ changePassform.rePassword(class="form-control mt-3", id="rePassword", required="required", type="password", placeholder="Confirm the new password") }}
+                            {{ changePassform.submit(class="btn btn-primary mt-3", type="submit", size="lg") }}
+                        </form>
                     </div>
                 </div>
             </div>
-
         </div>
 
     </div>
