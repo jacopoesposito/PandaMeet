@@ -92,8 +92,8 @@ def unfollowUser(userToUnfollow):
 @users.route('/myaccount/<user>', methods=['GET','POST'])
 @login_required
 def accountSettings(user):
-    user = Users.get_user(user)
-    if user.ID_USER == current_user.ID_USER:
+    User = Users.get_user(user)
+    if User.ID_USER == current_user.ID_USER:
         return render_template("myaccount.html")
     return redirect(url_for('MainApp.index'))
 
