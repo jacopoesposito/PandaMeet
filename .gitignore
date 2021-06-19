@@ -145,5 +145,6 @@ cython_debug/
 /*_session/
 
 /static/image/users_profile_pic/
+static/image/users_profile_cover/
 /static/image/logo1.png
 /static/image/logo2.png

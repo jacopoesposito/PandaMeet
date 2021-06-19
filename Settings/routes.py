@@ -8,19 +8,32 @@ from models import Users
 settings = Blueprint('Settings', __name__)
 
 
-@settings.route('/securitycenter', methods=['GET', 'POST'])
+@settings.route('<user>/securitycenter', methods=['GET', 'POST'])
 @login_required
-def securityCenter():
-    changePassform = passwordChangeForm()
-    if changePassform.validate_on_submit():
-        if bcrypt.check_password_hash(current_user.PASSWORD, changePassform.oldPassword.data):
-            newPass = bcrypt.generate_password_hash(changePassform.newPassword.data).decode('utf-8')
-            current_user.PASSWORD = newPass
-            db.session.flush()
-            db.session.commit()
-            flash(message="Password changed")
+def securityCenter(user):
+    if user == current_user.USERNAME:
+        changePassform = passwordChangeForm()
+        if changePassform.validate_on_submit():
+            if bcrypt.check_password_hash(current_user.PASSWORD, changePassform.oldPassword.data):
+                newPass = bcrypt.generate_password_hash(changePassform.newPassword.data).decode('utf-8')
+                current_user.PASSWORD = newPass
+                db.session.flush()
+                db.session.commit()
+                flash(message="Password changed", category='alert-success')
+                return render_template('securitycenter.html', changePassform=changePassform)
+            else:
+                flash(message='The old password is incorrect', category='alert-danger')
+                return render_template('securitycenter.html', changePassform=changePassform)
         return render_template('securitycenter.html', changePassform=changePassform)
-    return render_template('securitycenter.html', changePassform=changePassform)
+    return redirect(url_for('MainApp.index'))
+
+
+@settings.route('<user>/accountinfo', methods=['GET','POST'])
+@login_required
+def accountInfo(user):
+    ##if user == current_user.USERNAME:
+        return render_template('accountinfo.html')
+    ##return redirect(url_for('MainApp.index'))
 
 
 @settings.route('/privatemode', methods=['GET', 'POST'])

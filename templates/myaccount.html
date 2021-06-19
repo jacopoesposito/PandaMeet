@@ -26,7 +26,7 @@
                         <div class="card-body text-white">
                             <h5 class="card-title">Security Center  <i class="fas fa-shield-alt"></i></h5>
                             <p class="card-text">Here you can manage all the security options of your Pandaccount, like change password or privacy settings.</p>
-                            <a href="{{ url_for('Settings.securityCenter') }}" class="btn btn-primary">Open security center</a>
+                            <a href="{{ url_for('Settings.securityCenter',  user=current_user.USERNAME) }}" class="btn btn-primary">Open security center</a>
                         </div>
                     </div>
             </div>
@@ -35,7 +35,7 @@
                         <div class="card-body text-white">
                             <h5 class="card-title">Account Info  <i class="fas fa-user-circle"></i></h5>
                             <p class="card-text">Here you can add or review details about your account, such as birth date, country, email and ecc.</p>
-                            <a href="#" class="btn btn-primary">Open account info</a>
+                            <a href="{{ url_for('Settings.accountInfo',  user=current_user.USERNAME) }}" class="btn btn-primary">Open account info</a>
                         </div>
                     </div>
             </div>
