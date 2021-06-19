@@ -1,9 +1,9 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import current_user
 
-from Settings.forms import passwordChangeForm
+from Settings.forms import passwordChangeForm, usernameChangeForm, emailChangingForm
 from __init__ import login_required, db, bcrypt
-from models import Users
+from models import Users, checkUsername, checkEmail
 
 settings = Blueprint('Settings', __name__)
 
@@ -31,9 +31,34 @@ def securityCenter(user):
 @settings.route('<user>/accountinfo', methods=['GET','POST'])
 @login_required
 def accountInfo(user):
-    ##if user == current_user.USERNAME:
-        return render_template('accountinfo.html')
-    ##return redirect(url_for('MainApp.index'))
+    if user == current_user.USERNAME:
+        userChangeForm = usernameChangeForm()
+        emailForm = emailChangingForm()
+        if emailForm.validate_on_submit():
+            changeMail(emailForm.newEmail.data)
+        if userChangeForm.validate_on_submit():
+            newUsername = userChangeForm.newUsername.data
+            if not checkUsername(newUsername):
+                current_user.USERNAME = newUsername
+                db.session.flush()
+                db.session.commit()
+                flash(message="Username changed", category='alert-success')
+                return redirect(url_for('Settings.accountInfo', user=current_user.USERNAME))
+            else:
+                flash(message="Username already taken", category='alert-danger')
+                return render_template('accountinfo.html', userChangeForm=userChangeForm, emailForm=emailForm)
+        return render_template('accountinfo.html', userChangeForm=userChangeForm, emailForm=emailForm)
+    return redirect(url_for('MainApp.index'))
+
+@login_required
+def changeMail(email):
+    if not checkEmail(email):
+        current_user.EMAIL = email
+        db.session.flush()
+        db.session.commit()
+        return flash(message="Email changed!", category="alert-success")
+    else:
+        return flash(message="Email already used by another account", category='alert-danger')
 
 
 @settings.route('/privatemode', methods=['GET', 'POST'])

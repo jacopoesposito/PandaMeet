@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import PasswordField, SubmitField
-from wtforms.validators import InputRequired, Length, EqualTo
+from wtforms import PasswordField, SubmitField, StringField
+from wtforms.validators import InputRequired, Length, EqualTo, Email, NoneOf
 
 
 class passwordChangeForm(FlaskForm):
@@ -8,3 +8,14 @@ class passwordChangeForm(FlaskForm):
     newPassword = PasswordField("Insert new password", validators=[InputRequired(), Length(min=5, max=15, message="The password must be between 1 and 15")])
     rePassword = PasswordField("Confirm", validators=[InputRequired(), Length(min=5, max=15, message=""), EqualTo('newPassword', message="The Password doesnt match")])
     submit = SubmitField("Confirm")
+
+
+class usernameChangeForm(FlaskForm):
+    newUsername = StringField("Insert your new username", validators=[InputRequired(), Length(min=5, max=20, message="Username must be "
+                    "between 5 and 20 character"), NoneOf("@", message="Dont use @")])
+    submit = SubmitField("Confirm")
+
+
+class emailChangingForm(FlaskForm):
+    newEmail = StringField('Email', validators=[InputRequired(), Email("Please write your email")])
+    submitEmail = SubmitField("Confirm")

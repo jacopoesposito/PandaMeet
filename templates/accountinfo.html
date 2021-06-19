@@ -9,6 +9,54 @@
             <div class="col-md-6 col-lg-6 col-sm-12 mx-auto">
                 <div class="card-body bg-dark mt-5">
                     <div class="card-title">Change Username</div>
+                    <div class="col-12">
+                        <form method="POST">
+                            {{ userChangeForm.csrf_token }}
+                            {{ userChangeForm.newUsername(class="form-control mt-3", id="newUsername", required="required", type="text", placeholder="Insert new username") }}
+                            {{ userChangeForm.submit(class="btn btn-primary mt-3", type="submit") }}
+                        </form>
+                    </div>
+                    {% if userChangeForm.errors %}
+                    <div class="alert mt-2 alert-danger">
+                    {% for field, errors in userChangeForm.errors.items() %}
+                        {{ ', '.join(errors) }}
+                    {% endfor %}
+                    </div>
+                    {% endif %}
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                       {% if messages %}
+                          {% for category, message in messages %}
+                              <div class="alert mt-2  {{ category }}">{{ message }}</div>
+                          {% endfor %}
+                       {% endif %}
+                    {% endwith %}
+                </div>
+            </div>
+            <div class="w-100 d-none d-md-block"></div>
+            <div class="col-md-6 col-lg-6 col-sm-12 mx-auto">
+                <div class="card-body bg-dark mt-5">
+                    <div class="card-title">Change Email</div>
+                    <div class="col-12">
+                        <form method="post">
+                            {{ emailForm.csrf_token }}
+                            {{ emailForm.newEmail(class="form-control mt-3", id="newEmail", required="required", type="email", placeholder="Insert new email") }}
+                            {{ emailForm.submitEmail(class="btn btn-primary mt-3", type="submit") }}
+                        </form>
+                    </div>
+                    {% if emailForm.errors %}
+                    <div class="alert mt-2 alert-danger">
+                    {% for field, errors in emailForm.errors.items() %}
+                        {{ ', '.join(errors) }}
+                    {% endfor %}
+                    </div>
+                    {% endif %}
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                       {% if messages %}
+                          {% for category, message in messages %}
+                              <div class="alert mt-2  {{ category }}">{{ message }}</div>
+                          {% endfor %}
+                       {% endif %}
+                    {% endwith %}
                 </div>
             </div>
         </div>
