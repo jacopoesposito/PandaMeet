@@ -34,18 +34,18 @@ def accountInfo(user):
     if user == current_user.USERNAME:
         userChangeForm = usernameChangeForm()
         emailForm = emailChangingForm()
-        if emailForm.validate_on_submit():
+        if emailForm.submitEmail.data and emailForm.validate():
             changeMail(emailForm.newEmail.data)
-        if userChangeForm.validate_on_submit():
+        if userChangeForm.submit.data and userChangeForm.validate():
             newUsername = userChangeForm.newUsername.data
             if not checkUsername(newUsername):
                 current_user.USERNAME = newUsername
                 db.session.flush()
                 db.session.commit()
-                flash(message="Username changed", category='alert-success')
+                flash(message="Username changed", category='alert-success username-alert')
                 return redirect(url_for('Settings.accountInfo', user=current_user.USERNAME))
             else:
-                flash(message="Username already taken", category='alert-danger')
+                flash(message="Username already taken", category='alert-danger username-alert')
                 return render_template('accountinfo.html', userChangeForm=userChangeForm, emailForm=emailForm)
         return render_template('accountinfo.html', userChangeForm=userChangeForm, emailForm=emailForm)
     return redirect(url_for('MainApp.index'))
@@ -56,9 +56,9 @@ def changeMail(email):
         current_user.EMAIL = email
         db.session.flush()
         db.session.commit()
-        return flash(message="Email changed!", category="alert-success")
+        return flash(message="Email changed!", category="alert-success email-alert")
     else:
-        return flash(message="Email already used by another account", category='alert-danger')
+        return flash(message="Email already used by another account", category='alert-danger email-alert')
 
 
 @settings.route('/privatemode', methods=['GET', 'POST'])

@@ -8,7 +8,8 @@
         <div class="row">
             <div class="col-md-6 col-lg-6 col-sm-12 mx-auto">
                 <div class="card-body bg-dark mt-5">
-                    <div class="card-title">Change Username</div>
+                    <div class="card-title h5">Change Username</div>
+                    <p class="mt-2 h6"><strong>Your username: @{{ current_user.USERNAME }}</strong></p>
                     <div class="col-12">
                         <form method="POST">
                             {{ userChangeForm.csrf_token }}
@@ -26,7 +27,9 @@
                     {% with messages = get_flashed_messages(with_categories=true) %}
                        {% if messages %}
                           {% for category, message in messages %}
+                              {% if "username-alert" in category %}
                               <div class="alert mt-2  {{ category }}">{{ message }}</div>
+                              {% endif %}
                           {% endfor %}
                        {% endif %}
                     {% endwith %}
@@ -35,7 +38,8 @@
             <div class="w-100 d-none d-md-block"></div>
             <div class="col-md-6 col-lg-6 col-sm-12 mx-auto">
                 <div class="card-body bg-dark mt-5">
-                    <div class="card-title">Change Email</div>
+                    <div class="card-title h5">Change Email</div>
+                    <p class="h6"><strong>Your email: {{ current_user.EMAIL }}</strong></p>
                     <div class="col-12">
                         <form method="post">
                             {{ emailForm.csrf_token }}
@@ -53,7 +57,9 @@
                     {% with messages = get_flashed_messages(with_categories=true) %}
                        {% if messages %}
                           {% for category, message in messages %}
+                              {% if "email-alert" in category %}
                               <div class="alert mt-2  {{ category }}">{{ message }}</div>
+                              {% endif %}
                           {% endfor %}
                        {% endif %}
                     {% endwith %}
