@@ -35,7 +35,7 @@
                     {% endwith %}
                 </div>
             </div>
-            <div class="w-100 d-none d-md-block"></div>
+
             <div class="col-md-6 col-lg-6 col-sm-12 mx-auto">
                 <div class="card-body bg-dark mt-5">
                     <div class="card-title h5">Change Email</div>
@@ -58,6 +58,66 @@
                        {% if messages %}
                           {% for category, message in messages %}
                               {% if "email-alert" in category %}
+                              <div class="alert mt-2  {{ category }}">{{ message }}</div>
+                              {% endif %}
+                          {% endfor %}
+                       {% endif %}
+                    {% endwith %}
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-6 col-sm-12 mx-auto">
+                <div class="card-body bg-dark mt-5">
+                    <div class="card-title h5">Change your birthdate</div>
+                    <p class="h6"><strong>Your birthday: {{ current_user.DATA_NASCITA }}</strong></p>
+                    <div class="col-12">
+                        <form method="post">
+                            {{ dateForm.csrf_token }}
+                            {{ dateForm.dataNascita(class="form-control mt-3", id="newBirthdate", required="required", type="date", placeholder="Insert new birthdate") }}
+                            {{ dateForm.submitData(class="btn btn-primary mt-3", type="submit") }}
+                        </form>
+                    </div>
+                    {% if dateForm.errors %}
+                    <div class="alert mt-2 alert-danger">
+                    {% for field, errors in dateForm.errors.items() %}
+                        {{ ', '.join(errors) }}
+                    {% endfor %}
+                    </div>
+                    {% endif %}
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                       {% if messages %}
+                          {% for category, message in messages %}
+                              {% if "date-alert" in category %}
+                              <div class="alert mt-2  {{ category }}">{{ message }}</div>
+                              {% endif %}
+                          {% endfor %}
+                       {% endif %}
+                    {% endwith %}
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-6 col-sm-12 mx-auto">
+                <div class="card-body bg-dark mt-5">
+                    <div class="card-title h5">Change your country</div>
+                    <p class="h6"><strong>Your country: {{ userCountry.NOME_PAESE }}</strong></p>
+                    <div class="col-12">
+                        <form method="post">
+                            {{ countryForm.csrf_token }}
+                            {{ countryForm.paese(class="form-control mt-3", id="newCountry", required="required", type="form-select") }}
+                            {{ countryForm.submitCountry(class="btn btn-primary mt-3", type="submit") }}
+                        </form>
+                    </div>
+                    {% if countryForm.errors %}
+                    <div class="alert mt-2 alert-danger">
+                    {% for field, errors in countryForm.errors.items() %}
+                        {{ ', '.join(errors) }}
+                    {% endfor %}
+                    </div>
+                    {% endif %}
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                       {% if messages %}
+                          {% for category, message in messages %}
+                              {% if "country-alert" in category %}
                               <div class="alert mt-2  {{ category }}">{{ message }}</div>
                               {% endif %}
                           {% endfor %}

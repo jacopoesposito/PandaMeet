@@ -37,6 +37,10 @@ class Users(db.Model, UserMixin):
 class Paesi(db.Model):
     __table__ = db.Model.metadata.tables['PAESI']
 
+    def userCountry_by_ID(countryID):
+        Country = Paesi.query.filter_by(PK_ID_PAESE = countryID).first()
+        return Country
+
 
 class Chat(db.Model):
     __table__ = db.Model.metadata.tables['CHAT']

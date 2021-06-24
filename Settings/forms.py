@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import PasswordField, SubmitField, StringField
+from wtforms import PasswordField, SubmitField, StringField, DateField, SelectField
 from wtforms.validators import InputRequired, Length, EqualTo, Email, NoneOf
 
 
@@ -19,3 +19,12 @@ class usernameChangeForm(FlaskForm):
 class emailChangingForm(FlaskForm):
     newEmail = StringField('Email', validators=[InputRequired(), Email("Please write your email")])
     submitEmail = SubmitField("Confirm")
+
+class birthdateChangingForm(FlaskForm):
+    dataNascita = DateField('Data di nascita', validators=[InputRequired("Insert your date of birth")], format="%Y-%m-%d")
+    submitData = SubmitField("Confirm")
+
+
+class countryChangingForm(FlaskForm):
+        paese = SelectField(u'Country', coerce=int, validators=[InputRequired()])
+        submitCountry = SubmitField("Confirm")
