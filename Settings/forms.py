@@ -26,5 +26,10 @@ class birthdateChangingForm(FlaskForm):
 
 
 class countryChangingForm(FlaskForm):
-        paese = SelectField(u'Country', coerce=int, validators=[InputRequired()])
-        submitCountry = SubmitField("Confirm")
+    paese = SelectField(u'Country', coerce=int, validators=[InputRequired()])
+    submitCountry = SubmitField("Confirm")
+
+
+class setHobbiesForm(FlaskForm):
+    hobby = SelectField(u'Hobby', coerce=int, validators=[InputRequired()])
+    submitHobby = SubmitField("Confirm")

@@ -1,9 +1,9 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import current_user
 
-from Settings.forms import passwordChangeForm, usernameChangeForm, emailChangingForm, birthdateChangingForm, countryChangingForm
+from Settings.forms import passwordChangeForm, usernameChangeForm, emailChangingForm, birthdateChangingForm, countryChangingForm, setHobbiesForm
 from __init__ import login_required, db, bcrypt
-from models import Paesi, Users, checkUsername, checkEmail
+from models import Paesi, Users, checkUsername, checkEmail, Hobby, PossiedeHobby, returnHobbies
 
 settings = Blueprint('Settings', __name__)
 
@@ -35,11 +35,27 @@ def accountInfo(user):
         userChangeForm = usernameChangeForm()
         emailForm = emailChangingForm()
         dateForm = birthdateChangingForm()
+
+        #Initializing country in the country selector
         avaible_countries = Paesi.query.all()
         country_list = [(i.PK_ID_PAESE, i.NOME_PAESE) for i in avaible_countries]
         countryForm = countryChangingForm()
         countryForm.paese.choices = country_list
         Country = Paesi.userCountry_by_ID(current_user.FK_ID_PAESE)  #Finding the user country by id, in order to show current country information
+
+        #Initializing hobby in the selector
+        avaible_hobbies = returnHobbies()
+        hobby_list = [(j.PK_ID_HOBBY, j.NOME_HOBBY) for j in avaible_hobbies]
+        hobbyForm = setHobbiesForm()
+        hobbyForm.hobby.choices = hobby_list
+        usersHobbies = Hobby.returnHobbiesByOwnerID(current_user.ID_USER)
+
+        if hobbyForm.submitHobby.data and hobbyForm.validate():
+            if Hobby.checkOwnedHobbies(hobbyForm.hobby.data, current_user.ID_USER):
+                flash(message="Hobby already present", category="alert-warning hobby-alert")
+            else:
+                setNewHobby(hobbyForm.hobby.data)
+                usersHobbies = Hobby.returnHobbiesByOwnerID(current_user.ID_USER)
         if countryForm.submitCountry.data and countryForm.validate():
             if countryForm.paese.data != current_user.FK_ID_PAESE:
                 changeCountry(countryForm.paese.data)
@@ -57,11 +73,15 @@ def accountInfo(user):
                 db.session.flush()
                 db.session.commit()
                 flash(message="Username changed", category='alert-success username-alert')
-                return redirect(url_for('Settings.accountInfo', user=current_user.USERNAME, userCountry=Country))
+                return redirect(url_for('Settings.accountInfo', user=current_user.USERNAME, userCountry=Country, usersHobbies=usersHobbies))
             else:
                 flash(message="Username already taken", category='alert-danger username-alert')
-                return render_template('accountinfo.html', userCountry=Country, userChangeForm=userChangeForm, emailForm=emailForm, dateForm=dateForm, countryForm=countryForm)
-        return render_template('accountinfo.html', userCountry=Country, userChangeForm=userChangeForm, emailForm=emailForm, dateForm=dateForm, countryForm=countryForm)
+                return render_template('accountinfo.html', userCountry=Country, usersHobbies=usersHobbies, userChangeForm=userChangeForm,
+                                       emailForm=emailForm, dateForm=dateForm, countryForm=countryForm
+                                       , hobbyForm=hobbyForm)
+        return render_template('accountinfo.html', userCountry=Country, usersHobbies=usersHobbies, userChangeForm=userChangeForm,
+                               emailForm=emailForm, dateForm=dateForm, countryForm=countryForm
+                               , hobbyForm=hobbyForm)
     return redirect(url_for('MainApp.index'))
 
 @login_required
@@ -91,7 +111,13 @@ def changeCountry(country):
 
     return flash(message="Country changed!", category="alert-success country-alert")
 
+@login_required
+def setNewHobby(new_hobby):
+    hobbyPosseduto = PossiedeHobby(FK_ID_UTENTE=current_user.ID_USER, FK_ID_HOBBY=new_hobby)
+    db.session.add(hobbyPosseduto)
+    db.session.commit()
 
+    return flash(message="New hobby inserted!", category="alert-success hobby-alert")
 
 @settings.route('/privatemode', methods=['GET', 'POST'])
 @login_required

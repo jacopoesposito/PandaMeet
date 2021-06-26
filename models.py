@@ -1,4 +1,6 @@
 from flask_login import UserMixin
+from sqlalchemy import and_
+
 from __init__ import login, db
 
 @login.user_loader
@@ -49,6 +51,21 @@ class Chat(db.Model):
 class Hobby(db.Model):
     __table__ = db.Model.metadata.tables['HOBBY']
 
+    def returnHobbiesByOwnerID(id_user):
+        Hobbies = Hobby.query.with_entities(Hobby.PK_ID_HOBBY
+        , Hobby.NOME_HOBBY).join(PossiedeHobby, Hobby.PK_ID_HOBBY==PossiedeHobby.FK_ID_HOBBY).join(Users, PossiedeHobby.FK_ID_UTENTE==Users.ID_USER)\
+            .filter_by(ID_USER=id_user).all()
+        return Hobbies
+
+    def checkOwnedHobbies(id_hobby, id_users):
+        Hobbies = Hobby.query.with_entities(Hobby.PK_ID_HOBBY).join(PossiedeHobby, Hobby.PK_ID_HOBBY==PossiedeHobby.FK_ID_HOBBY).\
+            join(Users, PossiedeHobby.FK_ID_UTENTE==Users.ID_USER).filter(and_(Users.ID_USER==id_users, Hobby.PK_ID_HOBBY==id_hobby)).first()
+
+        if Hobbies:
+            return True
+        else:
+            return False
+
 
 class Messaggio(db.Model):
     __table__ = db.Model.metadata.tables['MESSAGGIO']
@@ -86,5 +103,9 @@ def checkUsername(username):
         return True
     else:
         return False
+
+def returnHobbies():
+        Hobbies = Hobby.query.filter_by(APPROVATO = 1).all()
+        return Hobbies
 
 
