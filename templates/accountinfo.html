@@ -141,6 +141,22 @@
                             {{ hobbyForm.submitHobby(class="btn btn-primary mt-3", type="submit") }}
                         </form>
                     </div>
+                    {% if hobbyForm.errors %}
+                    <div class="alert mt-2 alert-danger">
+                    {% for field, errors in hobbyForm.errors.items() %}
+                        {{ ', '.join(errors) }}
+                    {% endfor %}
+                    </div>
+                    {% endif %}
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                       {% if messages %}
+                          {% for category, message in messages %}
+                              {% if "hobby-alert" in category %}
+                              <div class="alert mt-2  {{ category }}">{{ message }}</div>
+                              {% endif %}
+                          {% endfor %}
+                       {% endif %}
+                    {% endwith %}
                 </div>
             </div>
         </div>
